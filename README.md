@@ -28,6 +28,8 @@ This project demonstrates a production-ready **CI/CD and DevSecOps pipeline** fo
 
 - **Trivy FS Scan:** Analyzes the file system and source code for vulnerabilities and leaked secrets before building the image.
 
+   <img width="1391" height="738" alt="SONAR QUBE STEP 8" src="https://github.com/user-attachments/assets/edd09efc-0830-4053-9abb-6475d87747af" />
+
 ### 2️⃣ Docker Build & Push
 - The pipeline authenticates securely with **DockerHub**.
 - Builds the production-ready Docker image while injecting the `TMDB_V3_API_KEY` argument dynamically to fetch real-time movie data.
