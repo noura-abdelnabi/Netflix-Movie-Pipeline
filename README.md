@@ -1,95 +1,73 @@
-<div align="center">
-  <a href="http://netflix-clone-with-tmdb-using-react-mui.vercel.app/">
-    <img src="./public/assets/netflix-logo.png" alt="Logo" width="100" height="32">
-  </a>
+# 🎬 Netflix Clone - DevSecOps CI/CD Pipeline
 
-  <h3 align="center">Netflix Clone</h3>
+A fully automated DevSecOps Pipeline that builds, scans, and deploys a Netflix Clone application using modern DevOps tools and strict security practices.
 
-  <p align="center">
-    <a href="https://netflix-clone-react-typescript.vercel.app/">View Demo</a>
-    ·
-    <a href="https://github.com/crazy-man22/netflix-clone-react-typescript/issues">Report Bug</a>
-    ·
-    <a href="https://github.com/crazy-man22/netflix-clone-react-typescript/issues">Request Feature</a>
-  </p>
-</div>
+---
 
-<details>
-  <summary>Table of Contents</summary>
-  <ol>
-    <li>
-      <a href="#prerequests">Prerequests</a>
-    </li>
-    <li>
-      <a href="#which-features-this-project-deals-with">Which features this project deals with</a>
-    </li>
-    <li><a href="#third-party-libraries-used-except-for-react-and-rtk">Third Party libraries used except for React and RTK</a></li>
-    <li>
-      <a href="#contact">Contact</a>
-    </li>
-  </ol>
-</details>
+## 🚀 Project Overview & Architecture
 
-<br />
+This project demonstrates a production-ready **CI/CD and DevSecOps pipeline** for a React-based Netflix web application. Every commit triggers automated security assessments before containerization and deployment.
 
-<div align="center">
-  <img src="./public/assets/home-page.png" alt="Logo" width="100%" height="100%">
-  <p align="center">Home Page</p>
-  <img src="./public/assets/mini-portal.png" alt="Logo" width="100%" height="100%">
-  <p align="center">Mini Portal</p>
-  <img src="./public/assets/detail-modal.png" alt="Logo" width="100%" height="100%">
-  <p align="center">Detail Modal</p>
-  <img src="./public/assets/grid-genre.png" alt="Logo" width="100%" height="100%">
-  <p align="center">Grid Genre Page</p>
-  <img src="./public/assets/watch.png" alt="Logo" width="100%" height="100%">
-  <p align="center">Watch Page with customer contol bar</p>
-</div>
+### 🛠️ Tech Stack & Tools Used:
+* **Automation Server:** Jenkins (Declarative Pipeline)
+* **Code & Vulnerability Scanning:** OWASP Dependency-Check & Trivy (FS Scan)
+* **Containerization:** Docker & DockerHub
+* **Image Security:** Trivy (Image Scan)
+* **Application API:** The Movie Database (TMDB) API
 
-## Prerequests
+---
 
-- Create an account if you don't have on [TMDB](https://www.themoviedb.org/).
-  Because I use its free API to consume movie/tv data.
-- And then follow the [documentation](https://developers.themoviedb.org/3/getting-started/introduction) to create API Key
-- Finally, if you use v3 of TMDB API, create a file named `.env`, and copy and paste the content of `.env.example`.
-  And then paste the API Key you just created.
+## ⚙️ Pipeline Stages & Deployment Steps
 
-## Which features this project deal with
+### 1️⃣ Security & Dependency Analysis
+- **OWASP Dependency-Check:** Scans the project dependencies for publicly known vulnerabilities (CVEs).
+ 
+  <img width="1900" height="739" alt="DP CHECK STEP 9" src="https://github.com/user-attachments/assets/e74ea6cd-8584-4556-b6d9-306db3d53198" />
 
-- How to create and use [Custom Hooks](https://reactjs.org/docs/hooks-custom.html)
-- How to use [Context](https://reactjs.org/docs/context.html) and its provider
-- How to use lazy and Suspense for [Code-Splitting](https://reactjs.org/docs/code-splitting.html)
-- How to use a new [lazy](https://reactrouter.com/en/main/route/lazy) feature of react-router to reduce bundle size.
-- How to use data [loader](https://reactrouter.com/en/main/route/loader) of react-router, and how to use redux dispatch in the loader to fetch data before rendering component.
-- How to use [Portal](https://reactjs.org/docs/portals.html)
-- How to use [Fowarding Refs](https://reactjs.org/docs/forwarding-refs.html) to make components reusuable
-- How to create and use [HOC](https://reactjs.org/docs/higher-order-components.html)
-- How to customize default theme of [MUI](https://mui.com/)
-- How to use [RTK](https://redux-toolkit.js.org/introduction/getting-started)
-- How to use [RTK Query](https://redux-toolkit.js.org/rtk-query/overview)
-- How to customize default classname of [MUI](https://mui.com/material-ui/experimental-api/classname-generator)
-- Infinite Scrolling(using [Intersection Observer API](https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API))
-- How to make awesome carousel using [slick-carousel](https://react-slick.neostack.com)
+- **Trivy FS Scan:** Analyzes the file system and source code for vulnerabilities and leaked secrets before building the image.
 
-## Third Party libraries used except for React and RTK
+### 2️⃣ Docker Build & Push
+- The pipeline authenticates securely with **DockerHub**.
+- Builds the production-ready Docker image while injecting the `TMDB_V3_API_KEY` argument dynamically to fetch real-time movie data.
+- Tags and pushes the final image to DockerHub (`latest`).
+<img width="923" height="669" alt="DOCKER IMAGE STEP 10" src="https://github.com/user-attachments/assets/752d2dfb-99e6-442a-bf9a-06cd17008eb8" />
 
-- [react-router-dom@v6.9](https://reactrouter.com/en/main)
-- [MUI(Material UI)](https://mui.com/)
-- [framer-motion](https://www.framer.com/docs/)
-- [video.js](https://videojs.com)
-- [react-slick](https://react-slick.neostack.com/)
 
-## Install with Docker
+### 3️⃣ Trivy Image Scanning
+- Scans the generated Docker image layers to ensure no vulnerabilities are deployed to production.
 
-```sh
-docker build --build-arg TMDB_V3_API_KEY=your_api_key_here -t netflix-clone .
+### 4️⃣ Deployment
+- Automatically spins up the Docker container, exposing the application on port **`8081`**.
+<img width="1444" height="116" alt="NETFLIX CONTAIER" src="https://github.com/user-attachments/assets/d12a2a9c-0bef-4b61-a21b-bc651a8d66d4" />
 
-docker run --name netflix-clone-website --rm -d -p 80:80 netflix-clone
+---
+
+## 📸 Screenshots & Live Proof
+
+### 🚀 Running Application Dashboard
+<img width="1600" height="822" alt="netflix app" src="https://github.com/user-attachments/assets/c60bc5dd-5cd6-4a5d-b0b7-18a153b74c98" />
+
+
+### 🏗️ Jenkins Pipeline Success
+<img width="1877" height="825" alt="PIPELINE STEP 10" src="https://github.com/user-attachments/assets/ae64c5e0-611f-419e-922b-08100a4a882c" />
+
+---
+
+## 🛠️ How to Run Locally
+
+1. **Clone the repository:**
+   ```bash
+   git clone [https://github.com/noura-abdelnabi/Netflix-Movie-Pipeline.git](https://github.com/noura-abdelnabi/Netflix-Movie-Pipeline.git)
+   cd Netflix-Movie-Pipeline
+
+2. **Build the Docker Image:**
+  ```bash
+  docker build --build-arg TMDB_V3_API_KEY=your_tmdb_api_key -t netflix-clone .
 ```
+ 3. **Run the Container:**
+    ```bash
+    docker run -d -p 8081:80 --name netflix-app netflix-clone
 
-## Todo
+Access the app at http://localhost:8081
 
-- Make the animation of video card portal more similar to Netflix.
-- Improve performance. I am using `context` and `provider` but all components subscribed to the context's value are re-rendered. These re-renders happen even if the part of the value is not used in render of the component. there are [several ways](https://blog.axlight.com/posts/4-options-to-prevent-extra-rerenders-with-react-context/) to prevent the re-renders from these behaviours. In addition to them, there may be several performance issues.
-- Replace bundler([Vite](https://vitejs.dev/guide)) with [Turbopack](https://turbo.build/pack/docs/why-turbopack). Turbopack is introduced in Next.js conf recently. It's very fast but it's nor ready to use right now. it just support Next.js, and they plan to support all others as soon as possible. so if it's ready to use, replace [Vite](https://vitejs.dev/guide) with [Turbopack](https://turbo.build/pack/docs/why-turbopack).
-- Add accessibilities for better UX.
-- Add Tests.
+## ⚡ Maintained by Noura Abdelnabi | DevOps Enthusiast.
